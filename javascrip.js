@@ -3,11 +3,12 @@ var ctx = canvas.getContext("2d");
 var radius = canvas.height / 2;
 ctx.translate(radius, radius);
 radius = radius * 0.9;
-drawcClock();
+setInterval(drawcClock, 1000);
 
 function drawcClock() {
   drawFace(ctx, radius);
   drawNumbers(ctx, radius);
+  drawTime(ctx, radius);
 }
 
 function drawFace(ctx, radius) {
@@ -46,3 +47,37 @@ function drawNumbers(ctx, radius) {
     ctx.rotate(-ang);
   }
 }
+
+function drawTime(ctx, radius) {
+  var now = new Date();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+  var second = now.getSeconds();
+
+  hour = hour % 12;
+  hour =
+    (hour * Math.PI) / 6 +
+    (minute * Math.PI) / (6 * 60) +
+    (second * Math.PI) / (360 * 60);
+  drawHand(ctx, hour, radius * 0.5, radius * 0.07);
+
+  minute = (minute * Math.PI) / 30 + (second * Math.PI) / (30 * 60);
+  drawHand(ctx, minute, radius * 0.8, radius * 0.07);
+
+  second = (second * Math.PI) / 30;
+  drawHand(ctx, second, radius * 0.9, radius * 0.02);
+}
+
+function drawHand(ctx, pos, lenght, widht) {
+  ctx.beginPath();
+  ctx.lineWidth = widht;
+  ctx.lineCap = "round";
+
+  ctx.moveTo(0, 0);
+  ctx.rotate(pos);
+  ctx.lineTo(0, -lenght);
+  ctx.stroke();
+  ctx.rotate(-pos);
+}
+
+document.getElementById("date").innerHTML = Date();

@@ -1,8 +1,12 @@
 body {
-  background-color: #000;
+  background-color: lightgrey;
 }
 
 #canvas {
   margin-left: 300px;
   margin-top: 50px;
+}
+
+p {
+  margin-left: 380px;
 }
